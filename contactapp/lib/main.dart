@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
-import 'newpage.dart';
-import 'Contact.dart';
+
+import 'page1.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'CONTACT APP',
+      title: 'CONTACT APP 1.2',
       theme: ThemeData(primaryColor: Colors.blue),
       home: const Contactapp(),
     );
@@ -42,7 +41,7 @@ class _ContactappState extends State<Contactapp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Contact App")),
+      appBar: AppBar(title: Text("Contact App 1.1")),
       body: Column(
         children: [
           Column(
@@ -52,13 +51,27 @@ class _ContactappState extends State<Contactapp> {
                   itemCount: str.length,
                   itemBuilder: (cnt, ind) {
                     return ListTile(
-                      subtitle: Text(str2[ind]),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(left: 7),
+                        child: Text(str2[ind]),
+                      ),
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(str[ind]),
+                          TextButton(
+                            onPressed: () {
+                              final String _name = str[ind];
+                              final String _phone = str2[ind];
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) => Page1(
+                                          contactname: _name,
+                                          contactnumber: _phone))));
+                            },
+                            child: Text(str[ind]),
+                          ),
                           PopupMenuButton(
-                            icon: Icon(Icons.more_rounded),
                             onSelected: (item) {
                               setState(() {
                                 str2.removeAt(ind);
@@ -110,7 +123,9 @@ class _ContactappState extends State<Contactapp> {
                         ElevatedButton(
                             style:
                                 ElevatedButton.styleFrom(primary: Colors.green),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
                             child: Text("CANCEL")),
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
